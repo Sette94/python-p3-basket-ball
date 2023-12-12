@@ -269,5 +269,23 @@ def player_numbers(team_name):
 
     return numbers
 
+# Deliverable 6
 
-print(player_numbers(team_name))
+
+def player_stats(player_name):
+    home_data = data.get('home').get('players')
+    away_data = data.get('away').get('players')
+
+    players_array = []
+    for players in home_data:
+        players_array.append(players)
+
+    for players in away_data:
+        players_array.append(players)
+
+    search_arr = [p for p in players_array if p['name'] == player_name]
+
+    return search_arr[0]
+
+
+print(player_stats(player_name))

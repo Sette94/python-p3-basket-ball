@@ -90,11 +90,11 @@ def game_dict():
                 },
             ],
         },
-            
+
         "away": {
             "team_name": "Washington Wizards",
             "colors": ["Red", "White", "Navy Blue"],
-            "players": [   
+            "players": [
                 {
                     "name": "Bradley Beal",
                     "number": 3,
@@ -182,3 +182,45 @@ def game_dict():
             ]
         }
     }
+
+
+data = game_dict()
+
+player_name = 'Bradley Beal'
+
+# First Deliverable
+
+
+def num_points_per_game(player_name):
+    home_data = data.get('home').get('players')
+    away_data = data.get('away').get('players')
+
+    players_array = []
+    for players in home_data:
+        players_array.append(players)
+
+    for players in away_data:
+        players_array.append(players)
+
+    search_arr = [p for p in players_array if p['name'] == player_name]
+
+    return search_arr[0].get('points_per_game')
+
+
+def player_age(player_name):
+    home_data = data.get('home').get('players')
+    away_data = data.get('away').get('players')
+
+    players_array = []
+    for players in home_data:
+        players_array.append(players)
+
+    for players in away_data:
+        players_array.append(players)
+
+    search_arr = [p for p in players_array if p['name'] == player_name]
+
+    return search_arr[0].get('age')
+
+
+print(player_age(player_name))

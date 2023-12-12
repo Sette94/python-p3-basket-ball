@@ -187,8 +187,9 @@ def game_dict():
 data = game_dict()
 
 player_name = 'Bradley Beal'
+team_name = "Washington Wizards"
 
-# First Deliverable
+# Deliverable 1 and 2
 
 
 def num_points_per_game(player_name):
@@ -223,4 +224,21 @@ def player_age(player_name):
     return search_arr[0].get('age')
 
 
-print(player_age(player_name))
+# Deliverable 3
+
+
+def team_colors(team_name):
+    home_data = data.get('home')
+    away_data = data.get('away')
+
+    teams_array = [home_data, away_data]
+
+    for team in teams_array:
+        # If team_name == the param team_name, return this object
+        if (team.get('team_name') == team_name):
+            return team.get('colors')
+
+    # search_arr = [p for p in teams_array if p['name'] == player_name]
+
+
+print(team_colors(team_name))

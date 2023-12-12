@@ -187,7 +187,7 @@ def game_dict():
 data = game_dict()
 
 player_name = 'Bradley Beal'
-team_name = "Washington Wizards"
+team_name = "Cleveland Cavaliers"
 
 # Deliverable 1 and 2
 
@@ -238,7 +238,36 @@ def team_colors(team_name):
         if (team.get('team_name') == team_name):
             return team.get('colors')
 
-    # search_arr = [p for p in teams_array if p['name'] == player_name]
+# Deliverable 4
 
 
-print(team_colors(team_name))
+def team_names():
+    home_data = data.get('home').get('team_name')
+    away_data = data.get('away').get('team_name')
+
+    teams_array = [home_data, away_data]
+
+    return teams_array
+
+# Deliverable 5
+
+
+def player_numbers(team_name):
+    home_data = data.get('home')
+    away_data = data.get('away')
+
+    teams_array = [home_data, away_data]
+
+    numbers = []
+
+    for team in teams_array:
+        # If team_name == the param team_name, return this object
+        if (team.get('team_name') == team_name):
+            players_array = team.get('players')
+            for player in players_array:
+                numbers.append(player['number'])
+
+    return numbers
+
+
+print(player_numbers(team_name))

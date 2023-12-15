@@ -1,3 +1,8 @@
+
+
+# import ipdb
+
+
 def game_dict():
     return {
         "home": {
@@ -184,108 +189,107 @@ def game_dict():
     }
 
 
-data = game_dict()
-
-player_name = 'Bradley Beal'
-team_name = "Cleveland Cavaliers"
-
-# Deliverable 1 and 2
+def all_players():
+    all_players = {}
+    dict = game_dict()
+    for key in dict:  # get the current team
+        # key will be either 'home' or 'away'
+        cur_team = dict[key]
+        all_cur_team_players = cur_team['players']
+        for player in all_cur_team_players:  # loop through current team's players
+            # player['name'] for the key (ex. "jarrett allen") and player for value(the entire object)
+            all_players[player['name']] = player
+    return all_players
 
 
 def num_points_per_game(player_name):
-    home_data = data.get('home').get('players')
-    away_data = data.get('away').get('players')
+    dict = game_dict()
+    all_players = {}
 
-    players_array = []
-    for players in home_data:
-        players_array.append(players)
+    for key in dict:
+        team_data = dict[key]
+        for team_key in team_data:
+            if (team_key == "players"):
+                for player in team_data[team_key]:
+                    all_players[player['name']] = player
 
-    for players in away_data:
-        players_array.append(players)
-
-    search_arr = [p for p in players_array if p['name'] == player_name]
-
-    return search_arr[0].get('points_per_game')
+    return all_players.get(player_name).get('points_per_game')
 
 
 def player_age(player_name):
-    home_data = data.get('home').get('players')
-    away_data = data.get('away').get('players')
+    dict = game_dict()
+    all_players = {}
 
-    players_array = []
-    for players in home_data:
-        players_array.append(players)
+    for key in dict:
+        team_data = dict[key]
+        for team_key in team_data:
+            if (team_key == "players"):
+                for player in team_data[team_key]:
+                    all_players[player['name']] = player
 
-    for players in away_data:
-        players_array.append(players)
-
-    search_arr = [p for p in players_array if p['name'] == player_name]
-
-    return search_arr[0].get('age')
+    return all_players.get(player_name).get('age')
 
 
-# Deliverable 3
+def get_teams(team_name):
+    dict = game_dict()
+    for h_akey in dict:
+        if (dict[h_akey]['team_name'] == team_name):
+            return dict[h_akey]
 
 
 def team_colors(team_name):
-    home_data = data.get('home')
-    away_data = data.get('away')
-
-    teams_array = [home_data, away_data]
-
-    for team in teams_array:
-        # If team_name == the param team_name, return this object
-        if (team.get('team_name') == team_name):
-            return team.get('colors')
-
-# Deliverable 4
+    team_data = get_teams(team_name)
+    return team_data['colors']
 
 
 def team_names():
-    home_data = data.get('home').get('team_name')
-    away_data = data.get('away').get('team_name')
+    dict = game_dict()
+    teams = []
+    for h_akey in dict:
+        teams.append(dict[h_akey]['team_name'])
 
-    teams_array = [home_data, away_data]
-
-    return teams_array
-
-# Deliverable 5
+    return teams
 
 
 def player_numbers(team_name):
-    home_data = data.get('home')
-    away_data = data.get('away')
-
-    teams_array = [home_data, away_data]
-
+    team_data = get_teams(team_name)
+    players = team_data['players']
     numbers = []
-
-    for team in teams_array:
-        # If team_name == the param team_name, return this object
-        if (team.get('team_name') == team_name):
-            players_array = team.get('players')
-            for player in players_array:
-                numbers.append(player['number'])
+    for player in players:
+        numbers.append(player['number'])
 
     return numbers
 
-# Deliverable 6
-
 
 def player_stats(player_name):
-    home_data = data.get('home').get('players')
-    away_data = data.get('away').get('players')
+    dict = game_dict()
+    all_players = {}
+    for h_akey in dict:
+        for player in dict[h_akey]["players"]:
+            all_players[player['name']] = player
 
-    players_array = []
-    for players in home_data:
-        players_array.append(players)
-
-    for players in away_data:
-        players_array.append(players)
-
-    search_arr = [p for p in players_array if p['name'] == player_name]
-
-    return search_arr[0]
+    return all_players.get(player_name)
 
 
-print(player_stats(player_name))
+def average_rebounds_by_shoe_brand():
+    shoes = {}
+    players = all_players()
+    # iterate over players
+    for player_name in players:  # player_name is only the key
+        try:
+            cur_player = players[player_name]
+            # for player's rebounds
+            rebounds = cur_player['rebounds_per_game']
+            # append to shoes[brand]
+            shoes[cur_player['shoe_brand']].append(rebounds)
+        except KeyError:
+            shoes[cur_player['shoe_brand']] = [rebounds]
+    # sum, average
+    for shoe_brand in shoes:  # shoe_brand is only the key
+        rebounds = shoes[shoe_brand]
+        avg = sum(rebounds)/len(rebounds)
+        # NEEDS DOUBLE SPACE AFTER : FOR THE TEST TO PASS
+        print(f'{shoe_brand}:  {"{:.2f}".format(avg)}')
+
+
+# ipdb.set_trace()
